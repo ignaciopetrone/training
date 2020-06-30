@@ -1,16 +1,14 @@
-import * as React from "react";
+import React from "react";
 
 interface CustomMessageProps {
   compiler: string;
   message: string;
 }
 
-console.log(React);
-
 const CustomMessage = (props: CustomMessageProps) => (
   <div>
     <h1>{props.message}</h1>
-    <p>This file was compaasdsdasdiled asdusiasdasng {props.compiler}</p>
+    <p>This file was vevo wacho with {props.compiler}</p>
   </div>
 );
 
