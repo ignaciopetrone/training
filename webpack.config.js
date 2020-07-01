@@ -1,4 +1,6 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 module.exports = {
   mode: "development",
@@ -17,9 +19,14 @@ module.exports = {
     warnings: true,
   },
   devServer: {
-    contentBase: './src/client',
+    contentBase: './dist',
     hot: true, // hot module replacement.
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/client/index.html'
+    })
+  ],
   module: {
     rules: [{
       test: /\.tsx?/,

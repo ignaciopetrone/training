@@ -10,7 +10,7 @@ node_modules/
 # Optional eslint cache
 .eslintcache
 
-build/
+dist/
 .schema.json
 tsconfig.tsbuildinfo
 
