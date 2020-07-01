@@ -1,19 +1,24 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
   mode: "development",
   entry: path.resolve(__dirname, `src`, `client`, 'index.tsx'),
-  devtool: "source-map",
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
+  devtool: 'cheap-module-eval-source-map',
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   },
+  stats: {
+    colors: true,
+    hash: false,
+    version: false,
+    timings: true,
+    assets: false,
+    modules: false,
+    warnings: true,
+  },
   devServer: {
-    historyApiFallback: true
+    contentBase: './src/client',
+    hot: true, // hot module replacement.
   },
   module: {
     rules: [{
@@ -28,5 +33,11 @@ module.exports = {
       test: /\.js$/,
       loader: "source-map-loader",
     }]
-  }
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'bundle.js',
+  },
+  
 }

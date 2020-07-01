@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack",
-    "dev": "webpack-dev-server --watch"
+    "dev": "webpack-dev-server --port 4200 --config ./webpack.config.js"
   },
   "license": "ISC",
   "devDependencies": {

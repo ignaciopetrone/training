@@ -1,8 +1,8 @@
-import * as React from "react";
-import * as ReactDom from "react-dom";
-import CustomMessage from "./components/custom-message";
+import React from "react";
+import ReactDom from "react-dom";
+import App from "./app";
 
 ReactDom.render(
-  <CustomMessage compiler="typescript" message="hello world" />,
+  <App compiler="vevo" message="hello world" />,
   document.getElementById("root")
 );
