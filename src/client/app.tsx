@@ -9,7 +9,7 @@ const App = (props: AppProps) => {
   return (
     <div>
       <h1>{props.message}</h1>
-      <p>This file compiled with {props.compiler}</p>
+      <p>This filejhb compiled with {props.compiler}</p>
     </div>
   );
 };
