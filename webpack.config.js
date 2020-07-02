@@ -22,6 +22,9 @@ module.exports = {
     contentBase: './dist',
     hot: true, // hot module replacement.
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/client/index.html'

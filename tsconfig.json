@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "target": "es2019",
     "jsx": "react"
-  }
+  },
 }
