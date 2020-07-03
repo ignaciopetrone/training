@@ -1,5 +1,5 @@
 import express from 'express';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer, gql, IResolvers } from 'apollo-server-express';
 import uuid from 'uuid';
 
 type Db = {
@@ -41,13 +41,13 @@ const typeDefs = gql`
 `;
 
 // Provide resolver functions for your schema fields
-const resolvers = {
+const resolvers: IResolvers = {
   Query: {
     getUsers: () => db.users,
-    getUser: (obj, args, context, info) => db.users.find(user => user.id === args.id)
+    getUser: (_obj: unknown, args: {id: string}) => db.users.find(user => user.id === args.id)
   },
   Mutation: {
-    addUser: (obj, args, context, info) => {
+    addUser: (_obj: unknown, args: {name: string; email: string}) => {
       const user = {
         id: uuid(),
         name: args.email,
