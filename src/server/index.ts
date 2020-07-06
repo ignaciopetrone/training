@@ -37,9 +37,9 @@ const db: Db = {
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
   type Query {
-    getUsers: [User!]!
-    getUser(id: ID!): User
-    getMessages: [Message!]!
+    users: [User!]!
+    user(id: ID!): User
+    messages: [Message!]!
   }
 
   type Mutation {
@@ -55,19 +55,19 @@ const typeDefs = gql`
   }
 
   type Message {
-  id: ID!
-  userId: String
-  body: String
-  createdAt: String
-}
+    id: ID!
+    userId: 
+    body: String
+    createdAt: String
+  }
 `;
 
 // Provide resolver functions for your schema fields
 const resolvers: IResolvers = {
   Query: {
-    getUsers: () => db.users,
-    getUser: (_obj: unknown, args: {id: string}) => db.users.find(user => user.id === args.id),
-    getMessages: () => db.messages
+    users: () => db.users,
+    user: (_obj: unknown, args: {id: string}) => db.users.find(user => user.id === args.id),
+    messages: () => db.messages
   },
   Mutation: {
     addUser: (_obj: unknown, args: {name: string; email: string}) => {
@@ -77,9 +77,11 @@ const resolvers: IResolvers = {
         email: args.email
       }
       db.users.push(user);
-      
       return user;
     }
+  },
+  User: {
+    messages: (_obj: User) => db.messages.filter(message => message.userId === _obj.id)
   }
 };
 
