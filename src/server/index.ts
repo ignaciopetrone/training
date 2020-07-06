@@ -56,7 +56,6 @@ const typeDefs = gql`
 
   type Message {
     id: ID!
-    userId: 
     body: String
     createdAt: String
   }
@@ -71,10 +70,11 @@ const resolvers: IResolvers = {
   },
   Mutation: {
     addUser: (_obj: unknown, args: {name: string; email: string}) => {
+      const { name: name, email: email } = args;
       const user = {
         id: uuid(),
-        name: args.email,
-        email: args.email
+        name: name,
+        email: email
       }
       db.users.push(user);
       return user;
