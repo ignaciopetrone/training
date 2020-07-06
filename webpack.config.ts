@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const TypeCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   mode: "development",
@@ -22,27 +22,36 @@ module.exports = {
     contentBase: './dist',
     hot: true, // hot module replacement.
   },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/client/index.html'
-    })
+    }),
+    new TypeCheckerPlugin({
+      eslint: { files: 'src/**/*.{ts,tsx}', enabled: true },
+      formatter: 'codeframe',
+    }),
   ],
   module: {
-    rules: [{
-      test: /\.tsx?/,
-      exclude: /node_modules/,
-      use: [{
-        loader: "ts-loader"
-      }]
-    },
-    {
-      enforce: "pre",
-      test: /\.js$/,
-      loader: "source-map-loader",
-    }]
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+      },
+      {
+        test: /\.tsx?/,
+        exclude: /node_modules/,
+        use: [{
+          loader: "ts-loader"
+        }]
+      },
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader",
+      }
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
