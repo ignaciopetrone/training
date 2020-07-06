@@ -4,6 +4,7 @@ import uuid from 'uuid';
 
 type Db = {
   users: User[]
+  messages: Message[]
 }
 
 type User = {
@@ -13,11 +14,23 @@ type User = {
   avatarUrl?: string
 }
 
+type Message = {
+  id: string
+  userId: string
+  body: string
+  createdAt: number
+}
+
 const db: Db = {
   users: [
     { id: '1', name: 'Alex', email: 'alex@gmail.com', avatarUrl: 'https://gravatar.com/123' },
     { id: '2', name: 'Marcus', email: 'marcus@gmail.com', avatarUrl: 'https://gravatar.com/123' },
     { id: '3', name: 'Maria', email: 'maria@gmail.com', avatarUrl: 'https://gravatar.com/123' },
+  ],
+  messages: [
+    { id: '1', userId: '1', body: 'Hello', createdAt: Date.now() },
+    { id: '2', userId: '2', body: 'Hello culiauuu', createdAt: Date.now() },
+    { id: '3', userId: '1', body: 'pero vevo wachen', createdAt: Date.now() },
   ]
 }
 
@@ -26,6 +39,7 @@ const typeDefs = gql`
   type Query {
     getUsers: [User!]!
     getUser(id: ID!): User
+    getMessages: [Message!]!
   }
 
   type Mutation {
@@ -37,14 +51,23 @@ const typeDefs = gql`
     name: String!
     email: String!
     avatarUrl: String
+    messages: [Message!]!
   }
+
+  type Message {
+  id: ID!
+  userId: String
+  body: String
+  createdAt: String
+}
 `;
 
 // Provide resolver functions for your schema fields
 const resolvers: IResolvers = {
   Query: {
     getUsers: () => db.users,
-    getUser: (_obj: unknown, args: {id: string}) => db.users.find(user => user.id === args.id)
+    getUser: (_obj: unknown, args: {id: string}) => db.users.find(user => user.id === args.id),
+    getMessages: () => db.messages
   },
   Mutation: {
     addUser: (_obj: unknown, args: {name: string; email: string}) => {
