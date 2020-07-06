@@ -7,12 +7,13 @@
   "scripts": {
     "start": "concurrently -r 'npm run dev:server' 'npm run dev:client'",
     "dev:client": "webpack-dev-server --port 4200 --config ./webpack.config.ts",
-    "dev:server": "concurrently -r 'npx eslint ./src/server/index.ts' 'ts-node-dev --respawn --transpileOnly ./src/server/index.ts'"
+    "dev:server": "concurrently -r 'npx eslint ./src/server/index.ts' 'PORT=4000 ts-node-dev --respawn --transpileOnly ./src/server/index.ts'"
   },
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^2.15.1",
     "concurrently": "^5.2.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^14.2.0",
     "react": "^16.13.1",
