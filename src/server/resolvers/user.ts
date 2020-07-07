@@ -1,14 +1,14 @@
 export default {
   Query: {
-    users: (root, args, context, info) => {
+    users: (root: any, args: any, ctx: any, info: any) => {
       return;
     },
-    user: (root, args, context, info) => {
+    user: (root: any, args: any, ctx: any, info: any) => {
       return;
     },
   },
   Mutation: {
-    signUp: (root, args, context, info) => {
+    signUp: (root: any, args: any, ctx: any, info: any) => {
       return;
     }
   }
