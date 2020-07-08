@@ -21,7 +21,6 @@ const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@chat.ljinp.mongodb.net/
 
 (async () => {
   try {
-
     await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   
     const app = express();
@@ -30,7 +29,7 @@ const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@chat.ljinp.mongodb.net/
     server.applyMiddleware({ app });
     
     app.listen({ port }, () =>
-    console.log(`Server ready at http://localhost:${port}${server.graphqlPath} 🚀🚀🚀`)
+      console.log(`Server ready at http://localhost:${port}${server.graphqlPath} 🚀🚀🚀`)
     );
 
   } catch (err) {
@@ -39,11 +38,3 @@ const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@chat.ljinp.mongodb.net/
   }
   
 })()
-
-
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-  
-//   client.close();
-// });

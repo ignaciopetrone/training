@@ -3,7 +3,7 @@ import { hash } from 'bcrypt'
 
 // Is necessary to provide an interface to userSchema.pre<interface>() 
 // in order to make mongoose work with typescript
-interface InputUser extends mongoose.Document {
+export interface SignUpInput extends mongoose.Document {
   email: string;
   username: string;
   password: string;
@@ -19,17 +19,12 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-userSchema.pre<InputUser>('save', async function (next) {
+userSchema.pre<SignUpInput>('save', async function () {
   // A normal function is required here in order to access the user is being created through "this"
   // If we use an arrow function isntead, "this" is undefined.
   if(this.isModified('password')) {
-    try {
       this.password = await hash(this.password, 10);
-    } catch (err) {
-      next(err);
-    }
   }
-  next()
-})
+});
 
-export default mongoose.model('User', userSchema)
+export default mongoose.model('User', userSchema);
