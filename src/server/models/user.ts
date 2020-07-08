@@ -10,21 +10,42 @@ export interface SignUpInput extends mongoose.Document {
   name: string;
 }
 
-const userSchema = new mongoose.Schema({
-  email: String,
-  username: String,
+const userSchema: mongoose.Schema = new mongoose.Schema({
+  email: {
+    type: String,
+    validate: {
+      validator: (email: string) => User.checkIfAlreadyExist({email}),
+      message: ({value}) => `Email ${value} has been already taken.`
+      // TODO: Add security
+    },
+  },
+  username: {
+    type: String,
+    validate: {
+      validator: (username: string) => User.checkIfAlreadyExist({username}),
+      message: ({value}) => `Username ${value} has been already taken.`
+      // TODO: Add security
+    },
+  },
   name: String,
   password: String,
 }, {
   timestamps: true
 });
 
+// Normal functions are required for accessing the user is being created through "this"
+// If we use an arrow function instead, "this" is undefined
 userSchema.pre<SignUpInput>('save', async function () {
-  // A normal function is required here in order to access the user is being created through "this"
-  // If we use an arrow function isntead, "this" is undefined.
   if(this.isModified('password')) {
-      this.password = await hash(this.password, 10);
+    this.password = await hash(this.password, 10);
   }
 });
 
-export default mongoose.model('User', userSchema);
+// Add checkIfAlreadyExist attribute to User instance and use it as validator
+userSchema.statics.checkIfAlreadyExist = async function(options: unknown) {
+  return await this.where(options).countDocuments() === 0;
+}
+
+const User = mongoose.model('User', userSchema);
+
+export default User;
