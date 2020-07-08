@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import mongoose from 'mongoose';
-import { UserInputError } from 'apollo-server-express';
+import { UserInputError, ValidationError } from 'apollo-server-express';
 import { User } from "../models";
+import { signUpSchema } from '../schemas';
+import validateInput from '../utils/validation';
+import { SignUpInput } from '../models/user';
 
 export default {
   Query: {
@@ -21,12 +24,12 @@ export default {
     },
   },
   Mutation: {
-    addUser: (root: any, args: any, ctx: any, info: any) => {
+    addUser: (root: any, args: SignUpInput, ctx: any, info: any) => {
       // TODO: not auth
-
-      // Validation
       
-
+      // Validation
+      validateInput(signUpSchema, args);
+      
       return User.create(args);
     }
   }
