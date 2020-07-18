@@ -1,1 +1,1 @@
-export { default as signUpSchema } from './user';
+export * from './user';
