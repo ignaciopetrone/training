@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { hash } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
 
 // Is necessary to provide an interface to userSchema.pre<interface>() 
 // in order to make mongoose work with typescript
@@ -8,6 +8,10 @@ export interface SignUpInput extends mongoose.Document {
   username: string;
   password: string;
   name: string;
+}
+export interface SignInInput extends mongoose.Document {
+  email: string;
+  password: string;
 }
 
 const userSchema: mongoose.Schema = new mongoose.Schema({
@@ -44,6 +48,10 @@ userSchema.pre<SignUpInput>('save', async function () {
 // Add checkIfAlreadyExist attribute to User instance and use it as validator
 userSchema.statics.checkIfAlreadyExist = async function(options: unknown) {
   return await this.where(options).countDocuments() === 0;
+}
+
+userSchema.methods.matchesPassword = function (incomingPassword: string) {
+  return compare(incomingPassword, this.password)
 }
 
 const User = mongoose.model('User', userSchema);
